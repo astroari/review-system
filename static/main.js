@@ -86,13 +86,34 @@ if (one) {
         const value = event.target.id;
         console.log(value);
 
+        let isSubmit = false;
         form.addEventListener('submit', (e) => {
             e.preventDefault();
+            if (isSubmit) {
+                return;
+            }
+            isSubmit = true;
             const order_id = e.target.id;
             console.log(order_id);
-            const val_num = getNumericValue(val);
+            const val_num = getNumericValue(value);
 
-            
-    });
+            $.ajax({
+                type: 'POST',
+                url: '/rate/',
+                data: {
+                    'el_id': order_id,
+                    'val': val_num,
+                    'csrfmiddlewaretoken': csrf[0].value
+                },
+                success: function(response) {
+                    console.log(response);
+                    confirmBox.innerHTML = `<h1>Successfully rated with ${response.score}</h1>`;
+                },
+                error: function(error) {
+                    console.log(error);
+                    confirmBox.innerHTML = `<h1>Something went wrong</h1>`;
+                }
+            });
+        });
     });
 })};

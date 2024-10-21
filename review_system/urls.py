@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from rating.views import main_view
+from rating.views import main_view, rate_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', main_view, name='main-view'),
+    path('rate/', rate_view, name='rate-view'),
 ]
