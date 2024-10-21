@@ -1,3 +1,43 @@
+function validateOrderId() {
+            const constraint = {
+                pattern: /^\d{6}$/,
+                message: "Order ID must have exactly 6 digits, e.g. 123456"
+            };
+            const orderIdInput = document.getElementById('order-id');
+
+            if (constraint.pattern.test(orderIdInput.value)) {
+                orderIdInput.setCustomValidity("");
+            } else {
+                orderIdInput.setCustomValidity(constraint.message);
+            }
+            
+            // Trigger the browser's built-in validation UI
+            orderIdInput.reportValidity();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const orderIdInput = document.getElementById('order-id');
+            const ratingForm = document.getElementById('rating-form');
+            
+            if (orderIdInput && ratingForm) {
+                // Validate on input
+                orderIdInput.addEventListener('input', validateOrderId);
+                
+                // Validate on form submission
+                ratingForm.addEventListener('submit', function(event) {
+                    validateOrderId();
+                    if (!orderIdInput.validity.valid) {
+                        event.preventDefault();
+                    }
+                });
+
+                // Update form ID when order ID changes
+                orderIdInput.addEventListener('input', function() {
+                    ratingForm.id = this.value || 'rating-form';
+                });
+            }
+        });
+
 // get all the stars
 const one = document.getElementById('first');
 const two = document.getElementById('second');
@@ -89,6 +129,14 @@ if (one) {
             if (isSubmit) {
                 return;
             }
+            
+            // Validate the order ID before submission
+            validateOrderId();
+            const orderIdInput = document.getElementById('order-id');
+            if (!orderIdInput.validity.valid) {
+                return; // Stop form submission if order ID is invalid
+            }
+            
             isSubmit = true;
             const order_id = e.target.id;
             console.log(order_id);

@@ -34,44 +34,6 @@
 
 
     <script>
-        function validateOrderId() {
-            const constraint = {
-                pattern: /^\d{6}$/,
-                message: "Order ID must have exactly 6 digits, e.g. 123456"
-            };
-            const orderIdInput = document.getElementById('order-id');
-
-            if (constraint.pattern.test(orderIdInput.value)) {
-                orderIdInput.setCustomValidity("");
-            } else {
-                orderIdInput.setCustomValidity(constraint.message);
-            }
-            
-            // Trigger the browser's built-in validation UI
-            orderIdInput.reportValidity();
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const orderIdInput = document.getElementById('order-id');
-            const ratingForm = document.getElementById('rating-form');
-            
-            if (orderIdInput && ratingForm) {
-                // Validate on input
-                orderIdInput.addEventListener('input', validateOrderId);
-                
-                // Validate on form submission
-                ratingForm.addEventListener('submit', function(event) {
-                    validateOrderId();
-                    if (!orderIdInput.validity.valid) {
-                        event.preventDefault();
-                    }
-                });
-
-                // Update form ID when order ID changes
-                orderIdInput.addEventListener('input', function() {
-                    ratingForm.id = this.value || 'rating-form';
-                });
-            }
-        });
+        
     </script>
 {% endblock content %}
