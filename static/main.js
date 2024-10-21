@@ -10,10 +10,12 @@ const confirmBox = document.getElementById('confirm-box');
 
 const csrf = document.getElementsByName('csrfmiddlewaretoken');
 
+const rateButtons = document.querySelector('.rate-buttons');
+
 const handleStarSelect = (size) => {
-    const children = form.children;
+    const children = rateButtons.children;
     for (let i = 0; i < children.length; i++) {
-        if (i<=size) {
+        if (i<size) {
             children[i].classList.add('checked');
         } else {
             children[i].classList.remove('checked');

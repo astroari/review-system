@@ -4,18 +4,21 @@
 
     <div class="row">
         <div class="col text-center">
-            <input type="text" class="form-control" id="order-id" placeholder="Order ID">
+            
         </div>
     </div>
     <div class="row">
         <div class="col text-center">
             <form class="rate-form" action="" method="POST" id="rating-form">
             {% csrf_token %}
-            <button type="submit" class="fa fa-star fa-3x my-btn" id="first"></button>
-            <button type="submit" class="fa fa-star fa-3x my-btn" id="second"></button>
-            <button type="submit" class="fa fa-star fa-3x my-btn" id="third"></button>
-            <button type="submit" class="fa fa-star fa-3x my-btn" id="fourth"></button>
-            <button type="submit" class="fa fa-star fa-3x my-btn" id="fifth"></button>
+            <input type="text" class="form-control" id="order-id" placeholder="Order ID" required minlength="6" maxlength="6">
+            <div class="rate-buttons">
+                <button type="submit" class="fa fa-star fa-3x my-btn" id="first"></button>
+                <button type="submit" class="fa fa-star fa-3x my-btn" id="second"></button>
+                <button type="submit" class="fa fa-star fa-3x my-btn" id="third"></button>
+                <button type="submit" class="fa fa-star fa-3x my-btn" id="fourth"></button>
+                <button type="submit" class="fa fa-star fa-3x my-btn" id="fifth"></button>
+            </div>
             </form>
         </div>
     </div>
@@ -28,11 +31,40 @@
 
 
     <script>
+        function validateOrderId() {
+            const constraint = {
+                pattern: /^\d{6}$/,
+                message: "Order ID must have exactly 6 digits, e.g. 123456"
+            };
+            const orderIdInput = document.getElementById('order-id');
+
+            if (constraint.pattern.test(orderIdInput.value)) {
+                orderIdInput.setCustomValidity("");
+            } else {
+                orderIdInput.setCustomValidity(constraint.message);
+            }
+            
+            // Trigger the browser's built-in validation UI
+            orderIdInput.reportValidity();
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
-            var orderIdInput = document.getElementById('order-id');
-            var ratingForm = document.getElementById('rating-form');
+            const orderIdInput = document.getElementById('order-id');
+            const ratingForm = document.getElementById('rating-form');
             
             if (orderIdInput && ratingForm) {
+                // Validate on input
+                orderIdInput.addEventListener('input', validateOrderId);
+                
+                // Validate on form submission
+                ratingForm.addEventListener('submit', function(event) {
+                    validateOrderId();
+                    if (!orderIdInput.validity.valid) {
+                        event.preventDefault();
+                    }
+                });
+
+                // Update form ID when order ID changes
                 orderIdInput.addEventListener('input', function() {
                     ratingForm.id = this.value || 'rating-form';
                 });
