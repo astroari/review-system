@@ -1,3 +1,7 @@
+body {
+  background-color: #f8f9fa;
+}
+
 .checked {
     color: green;
   }
@@ -5,4 +9,8 @@
 .my-btn {
   background-color: inherit !important;
   border: 0 !important;
+}
+
+.btn-primary {
+  background-color: green;
 }

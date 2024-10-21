@@ -1,18 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-    <div class="row">
-        <div class="col text-center">
-            
-        </div>
-    </div>
-    <div class="row">
-        <div class="col text-center">
+<div class="everything d-flex align-items-center justify-content-center min-vh-100">
+    <div class="card text-center vh-50">
+        <div class="card-body mb-5 mt-5">
+            <h5 class="card-title mb-5">Leave a review</h5>
             <form class="rate-form" action="" method="POST" id="rating-form">
             {% csrf_token %}
-            <input type="text" class="form-control" id="order-id" placeholder="Order ID" required minlength="6" maxlength="6">
-            <div class="rate-buttons">
+            <input type="text" class="form-control mb-5" id="order-id" placeholder="Order ID" required minlength="6" maxlength="6">
+            <div class="rate-buttons mb-2 mt-2">
                 <button type="submit" class="fa fa-star fa-3x my-btn" id="first"></button>
                 <button type="submit" class="fa fa-star fa-3x my-btn" id="second"></button>
                 <button type="submit" class="fa fa-star fa-3x my-btn" id="third"></button>
@@ -20,16 +16,15 @@
                 <button type="submit" class="fa fa-star fa-3x my-btn" id="fifth"></button>
             </div>
             <div>
-                <input type="textfield" class="form-control" id="review-text" placeholder="Review text">
+                <input type="textfield" class="form-control mt-5" id="review-text" placeholder="Review text">
+            </div>
+            <div class="mt-5">
+                <button type="" class="btn btn-primary">Submit</button>
             </div>
             </form>
         </div>
     </div>
-    <div class="row">
-        <div class="col text-center">
-            <p class="review-text-placeholder">Review text</p>
-        </div>
-    </div>
+</div>
 <div id="confirm-box"></div>
 
 
