@@ -13,6 +13,7 @@ def rate_view(request):
     if request.method == 'POST':
         el_id = request.POST.get('el_id')
         val = request.POST.get('val')
+        review = request.POST.get('review')
         
         # Check if a review already exists
         if Review.objects.filter(order_id=el_id).exists():
@@ -22,7 +23,7 @@ def rate_view(request):
             }, safe=False)
         
         try:
-            review = Review(order_id=el_id, rating=val)
+            review = Review(order_id=el_id, rating=val, review=review)
             review.save()
             return JsonResponse({'success': 'true', 'score': val}, safe=False)
         except IntegrityError:

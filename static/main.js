@@ -92,7 +92,8 @@ if (one) {
             isSubmit = true;
             const order_id = e.target.id;
             console.log(order_id);
-            const val_num = +getNumericValue(value);
+            const val_num = getNumericValue(value);
+            const review_text = document.getElementById('review-text').value;
 
             $.ajax({
                 type: 'POST',
@@ -100,6 +101,7 @@ if (one) {
                 data: {
                     'el_id': order_id,
                     'val': val_num,
+                    'review': review_text,
                     'csrfmiddlewaretoken': csrf[0].value
                 },
                 success: function(response) {
