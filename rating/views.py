@@ -1,3 +1,8 @@
 from django.shortcuts import render
+from .models import Review
 
-# Create your views here.
+def main_view(request):
+    context = {
+        
+    }
+    return render(request, 'rating/main.html', context)
