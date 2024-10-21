@@ -27,12 +27,7 @@ const arr = [one, two, three, four, five];
 
 const handleSelect = (selection) => {
     switch (selection) {
-        case 'first': {
-            // one.classList.add('checked');
-            // two.classList.remove('checked');
-            // three.classList.remove('checked');
-            // four.classList.remove('checked');
-            // five.classList.remove('checked');    
+        case 'first': { 
             handleStarSelect(1);
             return;  
         }
@@ -97,7 +92,7 @@ if (one) {
             isSubmit = true;
             const order_id = e.target.id;
             console.log(order_id);
-            const val_num = getNumericValue(value);
+            const val_num = +getNumericValue(value);
 
             $.ajax({
                 type: 'POST',
