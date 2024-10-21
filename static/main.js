@@ -47,120 +47,77 @@ const five = document.getElementById('fifth');
 
 const form = document.querySelector('.rate-form');
 const confirmBox = document.getElementById('confirm-box');
-
 const csrf = document.getElementsByName('csrfmiddlewaretoken');
 
-const rateButtons = document.querySelector('.rate-buttons');
+// Select all star buttons
+const starButtons = document.querySelectorAll('.rate-buttons button');
 
-const handleStarSelect = (size) => {
-    const children = rateButtons.children;
-    for (let i = 0; i < children.length; i++) {
-        if (i<size) {
-            children[i].classList.add('checked');
+let selectedRating = 0;
+
+// Function to handle star selection
+const handleStarSelect = (rating) => {
+    starButtons.forEach((button, index) => {
+        if (index < rating) {
+            button.classList.add('checked');
         } else {
-            children[i].classList.remove('checked');
+            button.classList.remove('checked');
         }
-    }
+    });
 }
 
-const arr = [one, two, three, four, five];
-
-const handleSelect = (selection) => {
-    switch (selection) {
-        case 'first': { 
-            handleStarSelect(1);
-            return;  
-        }
-        case 'second': {
-            handleStarSelect(2);
-            return;
-        }
-        case 'third': {
-            handleStarSelect(3);
-            return;
-        }
-        case 'fourth': {
-            handleStarSelect(4);
-            return;
-        }
-        case 'fifth': {
-            handleStarSelect(5);
-            return;
-        }
-    }
-}
-
-const getNumericValue = (stringValue) => {
-    let numericValue;
-    if (stringValue === 'first') {
-        numericValue = 1;
-    }
-    else if (stringValue === 'second') {
-        numericValue = 2;
-    }
-    else if (stringValue === 'third') {
-        numericValue = 3;
-    }
-    else if (stringValue === 'fourth') {
-        numericValue = 4;
-    }
-    else if (stringValue === 'fifth') {
-        numericValue = 5;
-    }
-    else {
-        numericValue = 0;
-    }
-    return numericValue;
-}
-
-if (one) {
-    arr.forEach(star => {star.addEventListener('mouseover', (event) => {
-        handleSelect(event.target.id);
-    });
+// Add click event listeners to star buttons
+starButtons.forEach((button, index) => {
+    button.addEventListener('click', () => {
+        selectedRating = index + 1;
+        handleStarSelect(selectedRating);
     });
 
-    arr.forEach(star => {star.addEventListener('click', (event) => {
-        const value = event.target.id;
-        console.log(value);
-
-        let isSubmit = false;
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            if (isSubmit) {
-                return;
-            }
-            
-            // Validate the order ID before submission
-            validateOrderId();
-            const orderIdInput = document.getElementById('order-id');
-            if (!orderIdInput.validity.valid) {
-                return; // Stop form submission if order ID is invalid
-            }
-            
-            isSubmit = true;
-            const order_id = e.target.id;
-            console.log(order_id);
-            const val_num = getNumericValue(value);
-            const review_text = document.getElementById('review-text').value;
-
-            $.ajax({
-                type: 'POST',
-                url: '/rate/',
-                data: {
-                    'el_id': order_id,
-                    'val': val_num,
-                    'review': review_text,
-                    'csrfmiddlewaretoken': csrf[0].value
-                },
-                success: function(response) {
-                    console.log(response);
-                    confirmBox.innerHTML = `<h1>Successfully rated with ${response.score}</h1>`;
-                },
-                error: function(error) {
-                    console.log(error);
-                    confirmBox.innerHTML = `<h1>Something went wrong</h1>`;
-                }
-            });
-        });
+    // Add mouseover event
+    button.addEventListener('mouseover', () => {
+        handleStarSelect(index + 1);
     });
-})};
+
+    // Add mouseout event
+    button.addEventListener('mouseout', () => {
+        handleStarSelect(selectedRating);
+    });
+});
+
+// Add mouseout event to the container
+document.querySelector('.rate-buttons').addEventListener('mouseout', () => {
+    handleStarSelect(selectedRating);
+});
+
+// Form submission handler
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    // Validate the order ID before submission
+    validateOrderId();
+    const orderIdInput = document.getElementById('order-id');
+    if (!orderIdInput.validity.valid) {
+        return; // Stop form submission if order ID is invalid
+    }
+    
+    const order_id = orderIdInput.value;
+    const review_text = document.getElementById('review-text').value;
+
+    $.ajax({
+        type: 'POST',
+        url: '/rate/',
+        data: {
+            'el_id': order_id,
+            'val': selectedRating,
+            'review': review_text,
+            'csrfmiddlewaretoken': csrf[0].value
+        },
+        success: function(response) {
+            console.log(response);
+            confirmBox.innerHTML = `<h1>Successfully rated with ${response.score}</h1>`;
+        },
+        error: function(error) {
+            console.log(error);
+            confirmBox.innerHTML = `<h1>Something went wrong</h1>`;
+        }
+    });
+});

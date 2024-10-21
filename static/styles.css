@@ -11,6 +11,12 @@ body {
   border: 0 !important;
 }
 
-.btn-primary {
-  background-color: green;
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: green;
+    border-color: green;
 }
+

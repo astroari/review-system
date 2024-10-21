@@ -8,18 +8,18 @@
             <form class="rate-form" action="" method="POST" id="rating-form">
             {% csrf_token %}
             <input type="text" class="form-control mb-5" id="order-id" placeholder="Order ID" required minlength="6" maxlength="6">
-            <div class="rate-buttons mb-2 mt-2">
-                <button type="submit" class="fa fa-star fa-3x my-btn" id="first"></button>
-                <button type="submit" class="fa fa-star fa-3x my-btn" id="second"></button>
-                <button type="submit" class="fa fa-star fa-3x my-btn" id="third"></button>
-                <button type="submit" class="fa fa-star fa-3x my-btn" id="fourth"></button>
-                <button type="submit" class="fa fa-star fa-3x my-btn" id="fifth"></button>
+            <div class="rate-buttons mb-1 mt-1">
+                <button type="button" class="fa fa-star fa-3x my-btn" id="first"></button>
+                <button type="button" class="fa fa-star fa-3x my-btn" id="second"></button>
+                <button type="button" class="fa fa-star fa-3x my-btn" id="third"></button>
+                <button type="button" class="fa fa-star fa-3x my-btn" id="fourth"></button>
+                <button type="button" class="fa fa-star fa-3x my-btn" id="fifth"></button>
             </div>
             <div>
                 <input type="textfield" class="form-control mt-5" id="review-text" placeholder="Review text">
             </div>
             <div class="mt-5">
-                <button type="" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
             </div>
             </form>
         </div>
