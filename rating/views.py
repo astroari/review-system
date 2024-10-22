@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Review
 from django.http import JsonResponse
 from django.db import IntegrityError
+import requests
 
 def main_view(request):
     context = {
@@ -22,6 +23,19 @@ def rate_view(request):
                 'error': 'A review for this order already exists'
             }, safe=False)
         
+        # Check if the order ID is valid -> exists in the order system
+        # make an api request to the order system with the order id we got
+        order_data = call_order_system(el_id)
+        # if the order id is not found, return an error
+        if order_data['stateCode'] != 200:
+            return JsonResponse({
+                'success': 'false',
+                'error': 'Order not found or not delivered yet'
+            }, safe=False)
+        # if the order id is found then check that the status is over or equal to 4
+        # if the status is less than 4 return an error
+        # if the status is 4 or more, save the review   
+        
         try:
             review = Review(order_id=el_id, rating=val, review=review)
             review.save()
@@ -33,3 +47,14 @@ def rate_view(request):
             }, safe=False)
     else:
         return JsonResponse({'success': 'false'}, safe=False)
+    
+
+def call_order_system(order_id):
+    url = "https://crm.eman.uz/v1/api/get-delivery-info"
+    payload = {'id': order_id}
+    headers = {
+        'token': ''
+    }
+
+    response = requests.request("POST", url, headers=headers, data=payload)
+    return response.json()

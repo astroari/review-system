@@ -112,8 +112,13 @@ form.addEventListener('submit', (e) => {
             'csrfmiddlewaretoken': csrf[0].value
         },
         success: function(response) {
-            console.log(response);
-            confirmBox.innerHTML = `<h1>Successfully rated with ${response.score}</h1>`;
+            if (response.success === 'false') {
+                orderIdInput.setCustomValidity(response.error);
+                orderIdInput.reportValidity();
+            } else {
+                console.log(response);
+                confirmBox.innerHTML = `<h1>Successfully rated with ${response.score}</h1>`;
+            }
         },
         error: function(error) {
             console.log(error);
