@@ -7,6 +7,7 @@ from django.db import IntegrityError
 import requests
 from django.urls import reverse
 from rest_framework.exceptions import NotFound
+from django.conf import settings
 
 def main_view(request):
     context = {
@@ -71,7 +72,7 @@ def call_order_system(order_id):
     url = "https://crm.eman.uz/v1/api/get-delivery-info"
     payload = {'id': order_id}
     headers = {
-        'token': ''
+        'token': settings.CRM_KEY
     }
 
     response = requests.request("POST", url, headers=headers, data=payload)
