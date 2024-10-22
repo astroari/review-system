@@ -53,6 +53,7 @@ const csrf = document.getElementsByName('csrfmiddlewaretoken');
 const starButtons = document.querySelectorAll('.rate-buttons button');
 
 let selectedRating = 0;
+const selectedRatingInput = document.getElementById('selected-rating');
 
 // Function to handle star selection
 const handleStarSelect = (rating) => {
@@ -68,8 +69,9 @@ const handleStarSelect = (rating) => {
 // Add click event listeners to star buttons
 starButtons.forEach((button, index) => {
     button.addEventListener('click', () => {
+        handleStarSelect(index + 1);
         selectedRating = index + 1;
-        handleStarSelect(selectedRating);
+        selectedRatingInput.value = selectedRating;
     });
 
     // Add mouseover event
@@ -97,6 +99,12 @@ form.addEventListener('submit', (e) => {
     const orderIdInput = document.getElementById('order-id');
     if (!orderIdInput.validity.valid) {
         return; // Stop form submission if order ID is invalid
+    }
+    
+    // Check if a rating has been selected
+    if (selectedRating === 0) {
+        alert('Please select a rating before submitting.');
+        return; // Stop form submission if no rating is selected
     }
     
     const order_id = orderIdInput.value;
