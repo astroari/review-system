@@ -1,9 +1,9 @@
 body {
-  background-color: #f8f9fa;
+  background-color: #339764;
 }
 
 .checked {
-    color: green;
+    color: #ffcb47;
   }
 
 .my-btn {
@@ -16,7 +16,7 @@ body {
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active {
-    background-color: green;
-    border-color: green;
+    background-color: #339764;
+    border-color: #339764;
 }
 
