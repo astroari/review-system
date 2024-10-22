@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
 from .models import Review
+from .serializers import ReviewSerializer
+from rest_framework import generics
 from django.http import JsonResponse
 from django.db import IntegrityError
 import requests
 from django.urls import reverse
+from rest_framework.exceptions import NotFound
 
 def main_view(request):
     context = {
@@ -73,3 +76,16 @@ def call_order_system(order_id):
 
     response = requests.request("POST", url, headers=headers, data=payload)
     return response.json()
+
+class ReviewListView(generics.ListAPIView):
+    serializer_class = ReviewSerializer
+    http_method_names = ['get']
+
+    def get_queryset(self):
+        queryset = Review.objects.all()
+        order_id = self.request.query_params.get('order_id', None)
+        if order_id is not None:
+            queryset = queryset.filter(order_id=order_id)
+            if not queryset.exists():
+                raise NotFound(f"No review found for order_id: {order_id}")
+        return queryset
