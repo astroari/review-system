@@ -1,14 +1,18 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Review
 from django.http import JsonResponse
 from django.db import IntegrityError
 import requests
+from django.urls import reverse
 
 def main_view(request):
     context = {
         
     }
     return render(request, 'rating/main.html', context)
+
+from django.http import JsonResponse
+from django.urls import reverse
 
 def rate_view(request):
     if request.method == 'POST':
@@ -39,7 +43,10 @@ def rate_view(request):
         try:
             review = Review(order_id=el_id, rating=val, review=review)
             review.save()
-            return JsonResponse({'success': 'true', 'score': val}, safe=False)
+            return JsonResponse({
+                'success': 'true',
+                'redirect_url': reverse('success-view')
+            })
         except IntegrityError:
             return JsonResponse({
                 'success': 'false',
@@ -47,6 +54,14 @@ def rate_view(request):
             }, safe=False)
     else:
         return JsonResponse({'success': 'false'}, safe=False)
+    
+
+
+def success_view(request):
+    context = {
+        'main_view_url': reverse('main-view')
+    }
+    return render(request, 'rating/success.html', context)
     
 
 def call_order_system(order_id):

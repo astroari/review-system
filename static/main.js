@@ -116,8 +116,8 @@ form.addEventListener('submit', (e) => {
                 orderIdInput.setCustomValidity(response.error);
                 orderIdInput.reportValidity();
             } else {
-                console.log(response);
-                confirmBox.innerHTML = `<h1>Successfully rated with ${response.score}</h1>`;
+                // Redirect to the success page
+                window.location.href = response.redirect_url;
             }
         },
         error: function(error) {
