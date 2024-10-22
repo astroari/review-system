@@ -9,18 +9,18 @@ from django.urls import reverse
 from rest_framework.exceptions import NotFound
 from django.conf import settings
 
-def main_view(request):
+def main_view(request, order_id=None):
     context = {
-        
+        'order_id': order_id
     }
     return render(request, 'rating/main.html', context)
 
 from django.http import JsonResponse
 from django.urls import reverse
 
-def rate_view(request):
+def rate_view(request, order_id=None):
     if request.method == 'POST':
-        el_id = request.POST.get('el_id')
+        el_id = request.POST.get('el_id') or order_id
         val = request.POST.get('val')
         review = request.POST.get('review')
         

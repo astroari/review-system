@@ -7,7 +7,8 @@
             <h5 class="card-title mb-5">Leave a review</h5>
             <form class="rate-form" action="" method="POST" id="rating-form">
             {% csrf_token %}
-            <input type="text" class="form-control mb-5" id="order-id" placeholder="Order ID" required minlength="6" maxlength="6">
+            <input type="text" class="form-control mb-5" id="order-id" placeholder="Order ID" required minlength="6" maxlength="6"
+                {% if order_id %}value="{{ order_id }}" readonly{% endif %}>
             <div class="rate-buttons mb-1 mt-1">
                 <button type="button" class="fa fa-star fa-3x my-btn" id="first"></button>
                 <button type="button" class="fa fa-star fa-3x my-btn" id="second"></button>

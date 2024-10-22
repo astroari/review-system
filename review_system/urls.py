@@ -21,7 +21,9 @@ from rating.views import main_view, rate_view, success_view, ReviewListView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', main_view, name='main-view'),
+    path('<str:order_id>/rate/', rate_view, name='rate-view'),
     path('rate/', rate_view, name='rate-view'),
     path('success/', success_view, name='success-view'),
     path('api/v1/reviews/', ReviewListView.as_view(), name='review-list'),
+    path('<str:order_id>/', main_view, name='main-view'),
 ]
