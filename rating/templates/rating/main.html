@@ -3,22 +3,24 @@
 {% block content %}
 <div class="everything d-flex align-items-center justify-content-center min-vh-100">
     <div class="card text-center vh-50">
-        <div class="card-body mb-5 mt-5">
+        <div class="card-body mb-4 mt-5">
             <h5 class="card-title mb-5">Leave a review</h5>
             <form class="rate-form" action="" method="POST" id="rating-form">
             {% csrf_token %}
-            <input type="text" class="form-control mb-5" id="order-id" placeholder="Order ID" required minlength="6" maxlength="6"
+            <small class="text-muted">Order ID</small>
+            <input type="text" class="form-control mb-5" id="order-id" placeholder="e.g. 123456" required minlength="6" maxlength="6"
                 {% if order_id %}value="{{ order_id }}" readonly{% endif %}>
             <div class="rate-buttons mb-1 mt-1">
-                <button type="button" class="fa fa-star fa-3x my-btn" id="first"></button>
-                <button type="button" class="fa fa-star fa-3x my-btn" id="second"></button>
-                <button type="button" class="fa fa-star fa-3x my-btn" id="third"></button>
-                <button type="button" class="fa fa-star fa-3x my-btn" id="fourth"></button>
-                <button type="button" class="fa fa-star fa-3x my-btn" id="fifth"></button>
+                <button type="button" class="fa fa-star-o fa-3x my-btn" id="first"></button>
+                <button type="button" class="fa fa-star-o fa-3x my-btn" id="second"></button>
+                <button type="button" class="fa fa-star-o fa-3x my-btn" id="third"></button>
+                <button type="button" class="fa fa-star-o fa-3x my-btn" id="fourth"></button>
+                <button type="button" class="fa fa-star-o fa-3x my-btn" id="fifth"></button>
             </div>
             <input type="hidden" name="rating" id="selected-rating" required>
-            <div>
-                <input type="text" class="form-control mt-5" id="review-text" placeholder="Review text">
+            <div class="mt-5">
+                <small class="text-muted">Review</small>
+                <textarea class="form-control" id="review-text" placeholder="Leave your feedback here" rows="3"></textarea>
             </div>
             <div class="mt-5">
                 <button type="submit" class="btn btn-primary">Submit</button>

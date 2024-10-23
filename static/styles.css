@@ -2,9 +2,6 @@ body {
   background-color: #339764;
 }
 
-.checked {
-    color: #ffcb47;
-  }
 
 .my-btn {
   background-color: inherit !important;
@@ -20,3 +17,23 @@ body {
     border-color: #339764;
 }
 
+.rate-buttons .my-btn {
+    color: #ccc; /* Light gray color for unchecked stars */
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.rate-buttons .my-btn:hover,
+.rate-buttons .my-btn:focus {
+    color: #ffcb47; /* Yellow color on hover/focus */
+}
+
+.rate-buttons .checked {
+    color: #ffcb47; /* Yellow color for checked stars */
+}
+
+.rate-buttons .fa-star-o.checked::before {
+    content: "\f005"; /* Unicode for solid star */
+}
