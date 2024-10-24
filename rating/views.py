@@ -2,25 +2,29 @@ from django.shortcuts import render, redirect
 from .models import Review
 from .serializers import ReviewSerializer
 from rest_framework import generics
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseNotFound
 from django.db import IntegrityError
 import requests
 from django.urls import reverse
 from rest_framework.exceptions import NotFound
 from django.conf import settings
 
-def main_view(request, order_id=None):
+def main_view(request, prefilled_order_id=None, prefilled_phonenumber=None):
+    # Check if the order_id and phone number are valid together
+    # If not valid, redirect to 400 page
+    if prefilled_order_id and prefilled_phonenumber:
+        order_data = call_order_system(prefilled_order_id)
+        if order_data['stateCode'] != 200 or order_data['phone'] != prefilled_phonenumber:
+            return HttpResponseBadRequest()
+    
     context = {
-        'order_id': order_id
+        'order_id': prefilled_order_id
     }
     return render(request, 'rating/main.html', context)
 
-from django.http import JsonResponse
-from django.urls import reverse
-
-def rate_view(request, order_id=None):
+def rate_view(request, prefilled_order_id=None, prefilled_phonenumber=None):
     if request.method == 'POST':
-        el_id = request.POST.get('el_id') or order_id
+        el_id = request.POST.get('el_id') or prefilled_order_id
         val = request.POST.get('val')
         review = request.POST.get('review')
         
@@ -62,6 +66,8 @@ def success_view(request):
     }
     return render(request, 'rating/success.html', context)
     
+def custom_bad_request_view(request, exception):
+    return render(request, '400.html', status=400)
 
 def call_order_system(order_id):
     url = "https://crm.eman.uz/v1/api/get-delivery-info"

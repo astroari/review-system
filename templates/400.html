@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="everything d-flex align-items-center justify-content-center min-vh-100">
+    <div class="card text-center vh-50 pb-5">
+        <div class="card-header"></div>
+            <h1>Error 400</h1>
+        </div>
+        <div class="card-body mb-5 mt-5">
+            <h5 class="card-title mb-5">Uh oh! This order does not exist or cannot be accessed.</h5>
+            <p class="card-text">Go back to the <a href="{% url 'main-view' %}">main</a> page</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
