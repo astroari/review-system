@@ -31,18 +31,13 @@ def rate_view(request, order_id=None):
                 'error': 'A review for this order already exists'
             }, safe=False)
         
-        # Check if the order ID is valid -> exists in the order system
-        # make an api request to the order system with the order id we got
+        # Check if the order ID is valid -> exists in the order system and is at the review stage
         order_data = call_order_system(el_id)
-        # if the order id is not found, return an error
-        if order_data['stateCode'] != 200:
+        if order_data['stateCode'] != 200 or order_data['status'] not in ["Проверка", "Готово", "На складе", "Завершен"]:
             return JsonResponse({
                 'success': 'false',
-                'error': 'Order not found or not delivered yet'
+                'error': 'Order not found or not available for review'
             }, safe=False)
-        # if the order id is found then check that the status is over or equal to 4
-        # if the status is less than 4 return an error
-        # if the status is 4 or more, save the review   
         
         try:
             review = Review(order_id=el_id, rating=val, review=review)
