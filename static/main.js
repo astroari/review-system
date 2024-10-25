@@ -1,7 +1,7 @@
 function validateOrderId() {
             const constraint = {
                 pattern: /^\d{6}$/,
-                message: "Order ID must have exactly 6 digits, e.g. 123456"
+                message: django.gettext("Order ID must have exactly 6 digits, e.g. 123456")
             };
             const orderIdInput = document.getElementById('order-id');
 
@@ -103,7 +103,8 @@ form.addEventListener('submit', (e) => {
     
     // Check if a rating has been selected
     if (selectedRating === 0) {
-        alert('Please select a rating before submitting.');
+        alert(django.gettext('Please select a rating before submitting.'));
+        console.log(gettext('Please select a rating before submitting.'));
         return; // Stop form submission if no rating is selected
     }
     
@@ -112,7 +113,7 @@ form.addEventListener('submit', (e) => {
 
     $.ajax({
         type: 'POST',
-        url: '/rate/',
+        url: rateUrl,
         data: {
             'el_id': order_id,
             'val': selectedRating,
@@ -130,7 +131,6 @@ form.addEventListener('submit', (e) => {
         },
         error: function(error) {
             console.log(error);
-            confirmBox.innerHTML = `<h1>Something went wrong</h1>`;
         }
     });
 });

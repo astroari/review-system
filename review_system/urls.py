@@ -15,16 +15,34 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, re_path
-from rating.views import main_view, rate_view, success_view, ReviewListView, custom_bad_request_view
+from django.urls import path, re_path, include
+from rating.views import main_view, rate_view, success_view, ReviewListView
 from django.conf.urls import handler400, handler404
+from django.conf.urls.i18n import i18n_patterns
+from django.conf import settings
+from django.views.i18n import JavaScriptCatalog
 
+# Non-localized URLs
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', main_view, name='main-view'),
-    re_path(r'^(?P<prefilled_order_id>\d{6})/rate/(?P<prefilled_phonenumber>\d{12})/$', rate_view, name='rate-view'),
+    path('i18n/', include('django.conf.urls.i18n')),
+    path('api/v1/reviews/', ReviewListView.as_view(), name='review-list'),
+    
+]
+
+# Localized URLs
+localized_urlpatterns = [
+    path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
+    re_path(r'^(?P<prefilled_order_id>\d{6})/rate/(?P<prefilled_phonenumber>\d{12})/$', rate_view, name='rate-view-prefilled'),
+    re_path(r'^(?P<prefilled_order_id>\d{6})/(?P<prefilled_phonenumber>\d{12})/$', main_view, name='main-view-prefilled'),
     path('rate/', rate_view, name='rate-view'),
     path('success/', success_view, name='success-view'),
-    path('api/v1/reviews/', ReviewListView.as_view(), name='review-list'),
-    re_path(r'^(?P<prefilled_order_id>\d{6})/(?P<prefilled_phonenumber>\d{12})/$', main_view, name='main-view'),
+    path('', main_view, name='main-view'),
 ]
+
+urlpatterns += i18n_patterns(*localized_urlpatterns)
+
+if 'rosetta' in settings.INSTALLED_APPS:
+    urlpatterns += [
+        path('rosetta/', include('rosetta.urls')),
+    ]

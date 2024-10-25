@@ -8,6 +8,8 @@ import requests
 from django.urls import reverse
 from rest_framework.exceptions import NotFound
 from django.conf import settings
+from django.utils.translation import gettext as _
+from django.utils.translation import get_language, activate, gettext
 
 def main_view(request, prefilled_order_id=None, prefilled_phonenumber=None):
     # Check if the order_id and phone number are valid together
@@ -32,7 +34,7 @@ def rate_view(request, prefilled_order_id=None, prefilled_phonenumber=None):
         if Review.objects.filter(order_id=el_id).exists():
             return JsonResponse({
                 'success': 'false',
-                'error': 'A review for this order already exists'
+                'error': _('A review for this order already exists')
             }, safe=False)
         
         # Check if the order ID is valid -> exists in the order system and is at the review stage
@@ -40,7 +42,7 @@ def rate_view(request, prefilled_order_id=None, prefilled_phonenumber=None):
         if order_data['stateCode'] != 200 or order_data['status'] not in ["Проверка", "Готово", "На складе", "Завершен"]:
             return JsonResponse({
                 'success': 'false',
-                'error': 'Order not found or not available for review'
+                'error': _('Order not found or not available for review')
             }, safe=False)
         
         try:
@@ -53,7 +55,7 @@ def rate_view(request, prefilled_order_id=None, prefilled_phonenumber=None):
         except IntegrityError:
             return JsonResponse({
                 'success': 'false',
-                'error': 'An error occurred while saving the review'
+                'error': _('An error occurred while saving the review')
             }, safe=False)
     else:
         return JsonResponse({'success': 'false'}, safe=False)
@@ -89,5 +91,14 @@ class ReviewListView(generics.ListAPIView):
         if order_id is not None:
             queryset = queryset.filter(order_id=order_id)
             if not queryset.exists():
-                raise NotFound(f"No review found for order_id: {order_id}")
+                raise NotFound(_(f"No review found for order_id: {order_id}"))
         return queryset
+
+def translate(language, text):
+    cur_language = get_language()
+    try:
+        activate(language)
+        return gettext(text)
+    finally:
+        activate(cur_language)
+    return text

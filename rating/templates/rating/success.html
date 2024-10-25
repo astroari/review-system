@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block content %}
 <div class="everything d-flex align-items-center justify-content-center min-vh-100">
     <div class="card text-center vh-50 pb-5 pt-5">
         <div class="card-body mb-5 mt-5">
-            <h5 class="card-title mb-5">Thank you for your review!</h5>
-            <p class="card-text">You will be redirected to the main page in 5 seconds...</p>
+            <h5 class="card-title mb-5">{% translate 'Thank you for your review!' %}</h5>
+            <p class="card-text">{% translate 'You will be redirected to the main page in 5 seconds...' %}</p>
         </div>
     </div>
 </div>
