@@ -33,7 +33,7 @@ urlpatterns = [
 # Localized URLs
 localized_urlpatterns = [
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
-    re_path(r'^(?P<prefilled_order_id>\d{6})/rate/(?P<prefilled_phonenumber>\d{12})/$', rate_view, name='rate-view-prefilled'),
+    re_path(r'^(?P<prefilled_order_id>\d{6})/(?P<prefilled_phonenumber>\d{12})/rate/$', rate_view, name='rate-view-prefilled'),
     re_path(r'^(?P<prefilled_order_id>\d{6})/(?P<prefilled_phonenumber>\d{12})/$', main_view, name='main-view-prefilled'),
     path('rate/', rate_view, name='rate-view'),
     path('success/', success_view, name='success-view'),

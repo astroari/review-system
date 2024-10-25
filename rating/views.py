@@ -20,7 +20,8 @@ def main_view(request, prefilled_order_id=None, prefilled_phonenumber=None):
             return HttpResponseBadRequest()
     
     context = {
-        'order_id': prefilled_order_id
+        'prefilled_order_id': prefilled_order_id,
+        'prefilled_phonenumber': prefilled_phonenumber
     }
     return render(request, 'rating/main.html', context)
 
