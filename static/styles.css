@@ -17,6 +17,20 @@ body {
     border-color: #339764;
 }
 
+.btn-outline-primary,
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active {
+    /* color: #339764;
+    border-color: #339764; */
+    color: #ccc;
+    border-color: #ccc;
+}
+
+.btn-outline-primary:hover {
+    background-color: #339764;
+}
+
 .rate-buttons .my-btn {
     color: #ccc; /* Light gray color for unchecked stars */
     background: none;

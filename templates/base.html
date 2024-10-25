@@ -20,15 +20,20 @@
   <body>
     {% csrf_token %}
     <div class="container-fluid">
-      <div class="row py-3 bg-light fixed-top">
-        <div class="col-12 text-center">
+      <div class="row py-3 bg-white fixed-top">
+        <div class="col-6 text-start ps-4 pt-1">
+          <img src="{% static 'logo.svg' %}" alt="Logo" height="30">
+        </div>
+        <div class="col-6 text-end pe-4">
+          <div class="btn-group" role="group" aria-label="Language">
           {% get_available_languages as LANGUAGES %}
           {% get_language_info_list for LANGUAGES as languages %}
           {% for lang in languages %}
-            <a href="/{{ lang.code }}/" class="btn btn-outline-primary mx-2">
-              {{ lang.name_local }}
+            <a href="/{{ lang.code }}/" class="btn btn-outline-primary">
+              {{ lang.code }}
             </a>
           {% endfor %}
+          </div>
         </div>
       </div>
     </div>
