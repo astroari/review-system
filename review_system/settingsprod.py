@@ -128,9 +128,9 @@ import os
 STATIC_URL = '/static/'
 # STATIC_ROOT = BASE_DIR / 'staticfiles'
 # STATICFILES_DIRS = [ BASE_DIR / 'static']
-STATIC_ROOT = os.path.join(str(BASE_DIR), 'staticfiles')
+STATIC_ROOT = str(BASE_DIR / 'staticfiles')
 STATICFILES_DIRS = [
-    os.path.join(str(BASE_DIR), 'static'),
+    str(BASE_DIR / 'static'),
 ]
 
 # Default primary key field type
