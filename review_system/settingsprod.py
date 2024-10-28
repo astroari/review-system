@@ -27,7 +27,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['project-astroari.one']
+ALLOWED_HOSTS = ['project-astroari.one', '64.227.171.59']
 
 
 # Application definition
