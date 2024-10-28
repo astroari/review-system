@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<div class="everything d-flex align-items-center justify-content-center min-vh-100">
+    <div class="card text-center vh-50 pb-5">
+        <div class="card-header">
+            <h1>{% translate 'Error 404' %}</h1>
+        </div>
+        <div class="card-body mb-5 mt-5">
+            <h5 class="card-title mb-5">{% translate 'Uh oh! This page does not exist.' %}</h5>
+            <p class="card-text">{% translate 'Go back to the' %} <a href="{% url 'main-view' %}">{% translate 'main' %}</a> {% translate 'page' %} </p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
