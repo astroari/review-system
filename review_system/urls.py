@@ -27,13 +27,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('i18n/', include('django.conf.urls.i18n')),
     path('api/v1/reviews/', ReviewListView.as_view(), name='review-list'),
-    path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
+    #path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
     
 ]
 
 # Localized URLs
 localized_urlpatterns = [
-    #path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
+    path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
     re_path(r'^(?P<prefilled_order_id>\d{6})/(?P<prefilled_phonenumber>\d{12})/rate/$', rate_view, name='rate-view-prefilled'),
     re_path(r'^(?P<prefilled_order_id>\d{6})/(?P<prefilled_phonenumber>\d{12})/$', main_view, name='main-view-prefilled'),
     path('rate/', rate_view, name='rate-view'),
