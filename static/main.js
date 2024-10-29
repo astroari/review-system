@@ -38,6 +38,15 @@ function validateOrderId() {
             }
         });
 
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+            // Get the CSRF token from the rating form specifically
+            xhr.setRequestHeader("X-CSRFToken", $('.rate-form [name=csrfmiddlewaretoken]').val());
+        }
+    }
+});
+
 // get all the stars
 const one = document.getElementById('first');
 const two = document.getElementById('second');
@@ -118,7 +127,6 @@ form.addEventListener('submit', (e) => {
             'el_id': order_id,
             'val': selectedRating,
             'review': review_text,
-            'csrfmiddlewaretoken': csrf[0].value
         },
         success: function(response) {
             if (response.success === 'false') {
