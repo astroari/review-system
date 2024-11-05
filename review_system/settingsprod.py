@@ -27,7 +27,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['project-astroari.one', '64.227.171.59']
+ALLOWED_HOSTS = ['']
 
 
 # Application definition
@@ -82,8 +82,8 @@ WSGI_APPLICATION = 'review_system.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'projectone',
-        'USER': 'projectoneuser',
+        'NAME': 'reviews',
+        'USER': 'reviewsuser',
         'PASSWORD': env('DB_PASSWORD'),
         'HOST': 'localhost',
         'PORT': '',
