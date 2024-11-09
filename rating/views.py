@@ -73,7 +73,7 @@ def custom_bad_request_view(request, exception):
     return render(request, '400.html', status=400)
 
 def call_order_system(order_id):
-    url = "https://crm.eman.uz/v1/api/get-delivery-info"
+    url = "192.168.183.20/v1/api/get-delivery-info"
     payload = {'id': order_id}
     headers = {
         'token': settings.CRM_KEY
