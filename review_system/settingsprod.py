@@ -151,7 +151,8 @@ LOCALE_PATHS = [BASE_DIR / 'locale']
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
+
 CSRF_TRUSTED_ORIGINS = [
-    'https://project-astroari.one',
-    'http://project-astroari.one'
+    'https://rate.eman.uz',
+    'https://www.rate.eman.uz'
 ]
