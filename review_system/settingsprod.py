@@ -113,7 +113,6 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
@@ -152,7 +151,8 @@ LOCALE_PATHS = [BASE_DIR / 'locale']
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
+
 CSRF_TRUSTED_ORIGINS = [
-    'https://project-astroari.one',
-    'http://project-astroari.one'
+    'https://rate.eman.uz',
+    'https://www.rate.eman.uz'
 ]

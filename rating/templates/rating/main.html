@@ -4,12 +4,14 @@
 <div class="everything d-flex align-items-center justify-content-center min-vh-100">
     <div class="card text-center vh-50">
         <div class="card-body mb-4 mt-5">
-            <h5 class="card-title mb-5">{% translate "Leave a review" %}</h5>
+            <h5 class="card-title mb-5 text-muted">{% translate "Leave a review" %}</h5>
             <form class="rate-form" action="" method="POST" id="rating-form">
                 {% csrf_token %}
-            <small class="text-muted">{% translate "Order ID" %}</small>
+            <div class="text-start px-3">
+                <small class="text-black-50 ">{% translate "Order ID" %}</small>
+            </div>
             <input type="text" class="form-control mb-5" id="order-id" placeholder="{% translate 'e.g. 123456' %}" required minlength="6" maxlength="6"
-                {% if prefilled_order_id %}value="{{ prefilled_order_id }}" readonly{% endif %}>
+                {% if prefilled_order_id %}value="{{ prefilled_order_id }}" readonly disabled{% endif %}>
             <div class="rate-buttons mb-1 mt-1">
                 <button type="button" class="fa fa-star-o fa-3x my-btn p-0 mx-1" id="first"></button>
                 <button type="button" class="fa fa-star-o fa-3x my-btn p-0 mx-1" id="second"></button>
@@ -19,7 +21,9 @@
             </div>
             <input type="hidden" name="rating" id="selected-rating" required>
             <div class="mt-5">
-                <small class="text-muted">{% translate "Review" %}</small>
+                <div class="text-start px-3">
+                    <small class="text-black-50 ">{% translate "Review" %}</small>
+                </div>
                 <textarea class="form-control" id="review-text" placeholder="{% translate 'Leave your feedback here' %}" rows="3"></textarea>
             </div>
             <div class="mt-5">
@@ -31,9 +35,9 @@
 </div>
 <script>
     var rateUrl = "{% if prefilled_order_id and prefilled_phonenumber %}{% url 'rate-view-prefilled' prefilled_order_id=prefilled_order_id prefilled_phonenumber=prefilled_phonenumber %}{% else %}{% url 'rate-view' %}{% endif %}";
-    console.log("Prefilled Order ID: {{ prefilled_order_id }}");
-    console.log("Prefilled Phone Number: {{ prefilled_phonenumber }}");
-    console.log("Rate URL: " + rateUrl);
-    console.log("Current language: {{ LANGUAGE_CODE }}");
+    //console.log("Prefilled Order ID: {{ prefilled_order_id }}");
+    //console.log("Prefilled Phone Number: {{ prefilled_phonenumber }}");
+    //console.log("Rate URL: " + rateUrl);
+    //console.log("Current language: {{ LANGUAGE_CODE }}");
 </script>
 {% endblock content %}
