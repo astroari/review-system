@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-25 03:58+0000\n"
-"PO-Revision-Date: 2024-10-25 06:22+0000\n"
+"POT-Creation-Date: 2024-11-11 06:17+0000\n"
+"PO-Revision-Date: 2024-11-11 06:41+0000\n"
 "Last-Translator:   <bagdaarina@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -20,26 +20,27 @@ msgstr ""
 "X-Translated-Using: django-rosetta 0.10.1\n"
 
 #: rating/templates/rating/main.html:7
-msgid "Leave a review"
-msgstr "Sharh qoldiring"
+#| msgid "Leave a review"
+msgid "Leave a review for your order"
+msgstr "Buyurtmangiz haqida izoh qoldiring"
 
-#: rating/templates/rating/main.html:9
+#: rating/templates/rating/main.html:11
 msgid "Order ID"
 msgstr "Buyurtma ID raqami"
 
-#: rating/templates/rating/main.html:10
+#: rating/templates/rating/main.html:13
 msgid "e.g. 123456"
 msgstr "masalan 123456"
 
-#: rating/templates/rating/main.html:21
+#: rating/templates/rating/main.html:25
 msgid "Review"
 msgstr "Sharh"
 
-#: rating/templates/rating/main.html:22
+#: rating/templates/rating/main.html:27
 msgid "Leave your feedback here"
 msgstr "Fikringizni shu yerda qoldiring"
 
-#: rating/templates/rating/main.html:25
+#: rating/templates/rating/main.html:30
 msgid "Submit"
 msgstr "Yuborish"
 
@@ -51,32 +52,32 @@ msgstr "Sharhingiz uchun tashakkur!"
 msgid "You will be redirected to the main page in 5 seconds..."
 msgstr "Siz 5 soniyadan so'ng asosiy sahifaga yo'naltirilasiz"
 
-#: rating/views.py:37
+#: rating/views.py:38
 msgid "A review for this order already exists"
 msgstr "Bu buyurtma uchun sharh allaqachon mavjud"
 
-#: rating/views.py:45
+#: rating/views.py:46
 msgid "Order not found or not available for review"
 msgstr "Buyurtma topilmadi yoki ko'rib chiqish uchun mavjud emas"
 
-#: rating/views.py:58
+#: rating/views.py:59
 msgid "An error occurred while saving the review"
 msgstr "Sharhni saqlashda xatolik yuz berdi"
 
-#: rating/views.py:94
+#: rating/views.py:95
 #, python-brace-format
 msgid "No review found for order_id: {order_id}"
 msgstr ""
 
-#: review_system/settings.py:137
+#: review_system/settings.py:137 review_system/settingsprod.py:145
 msgid "English"
 msgstr ""
 
-#: review_system/settings.py:138
+#: review_system/settings.py:138 review_system/settingsprod.py:146
 msgid "Russian"
 msgstr ""
 
-#: review_system/settings.py:139
+#: review_system/settings.py:139 review_system/settingsprod.py:147
 msgid "Uzbek"
 msgstr ""
 
