@@ -16,7 +16,7 @@ def main_view(request, prefilled_order_id=None, prefilled_phonenumber=None):
     # If not valid, redirect to 400 page
     if prefilled_order_id and prefilled_phonenumber:
         order_data = call_order_system(prefilled_order_id)
-        if order_data['stateCode'] != 200 or order_data['phone'] != prefilled_phonenumber:
+        if order_data['stateCode'] != 200 or order_data['orders'][0]['phone'] != prefilled_phonenumber:
             return HttpResponseBadRequest()
     
     context = {
@@ -40,7 +40,7 @@ def rate_view(request, prefilled_order_id=None, prefilled_phonenumber=None):
         
         # Check if the order ID is valid -> exists in the order system and is at the review stage
         order_data = call_order_system(el_id)
-        if order_data['stateCode'] != 200 or order_data['status'] not in ["Проверка", "Готово", "На складе", "Завершен"]:
+        if order_data['stateCode'] != 200 or order_data['orders'][0]['status'] < 4:
             return JsonResponse({
                 'success': 'false',
                 'error': _('Order not found or not available for review')
@@ -73,13 +73,12 @@ def custom_bad_request_view(request, exception):
     return render(request, '400.html', status=400)
 
 def call_order_system(order_id):
-    url = "http://192.168.183.20/v1/api/get-delivery-info"
-    payload = {'id': order_id}
+    url = "http://192.168.183.20/v1/api/get-orders-info"
     headers = {
         'token': settings.CRM_KEY
     }
 
-    response = requests.request("POST", url, headers=headers, data=payload)
+    response = requests.request("GET", url+f"?id={order_id}", headers=headers)
     return response.json()
 
 class ReviewListView(generics.ListAPIView):
