@@ -65,7 +65,8 @@ def rate_view(request, prefilled_order_id=None, prefilled_phonenumber=None):
 
 def success_view(request):
     context = {
-        'main_view_url': reverse('main-view')
+        'main_view_url': reverse('main-view'),
+        'eman_website_url': 'https://eman.uz/'
     }
     return render(request, 'rating/success.html', context)
     
