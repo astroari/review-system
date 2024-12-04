@@ -12,7 +12,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import get_language, activate, gettext
 from django.utils import timezone
 from datetime import datetime
-
+from django.http import Http404
 def main_view(request, prefilled_order_id=None, prefilled_phonenumber=None):
     # Check if the order_id and phone number are valid together
     # If not valid, redirect to 400 page
@@ -102,12 +102,15 @@ class ReviewListView(generics.ListAPIView):
         start_date = self.request.query_params.get('start_date', None)
         end_date = self.request.query_params.get('end_date', None)
         
-        if start_date:
-            start_datetime = timezone.make_aware(datetime.strptime(start_date, '%Y-%m-%d'))
-            queryset = queryset.filter(date_added__gte=start_datetime)
-        if end_date:
-            end_datetime = timezone.make_aware(datetime.strptime(end_date, '%Y-%m-%d') + timezone.timedelta(days=1))
-            queryset = queryset.filter(date_added__lt=end_datetime)
+        try:
+            if start_date:
+                start_datetime = timezone.make_aware(datetime.strptime(start_date, '%Y-%m-%d'))
+                queryset = queryset.filter(date_added__gte=start_datetime)
+            if end_date:
+                end_datetime = timezone.make_aware(datetime.strptime(end_date, '%Y-%m-%d') + timezone.timedelta(days=1))
+                queryset = queryset.filter(date_added__lt=end_datetime)
+        except ValueError:
+            raise Http404(_("Invalid date format"))
             
         return queryset
 
