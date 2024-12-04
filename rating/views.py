@@ -10,7 +10,9 @@ from rest_framework.exceptions import NotFound
 from django.conf import settings
 from django.utils.translation import gettext as _
 from django.utils.translation import get_language, activate, gettext
-
+from django.utils import timezone
+from datetime import datetime
+from django.http import Http404
 def main_view(request, prefilled_order_id=None, prefilled_phonenumber=None):
     # Check if the order_id and phone number are valid together
     # If not valid, redirect to 400 page
@@ -88,11 +90,28 @@ class ReviewListView(generics.ListAPIView):
 
     def get_queryset(self):
         queryset = Review.objects.all()
+        
+        # Order ID filter
         order_id = self.request.query_params.get('order_id', None)
         if order_id is not None:
             queryset = queryset.filter(order_id=order_id)
             if not queryset.exists():
                 raise NotFound(_(f"No review found for order_id: {order_id}"))
+        
+        # Date range filter
+        start_date = self.request.query_params.get('start_date', None)
+        end_date = self.request.query_params.get('end_date', None)
+        
+        try:
+            if start_date:
+                start_datetime = timezone.make_aware(datetime.strptime(start_date, '%Y-%m-%d'))
+                queryset = queryset.filter(date_added__gte=start_datetime)
+            if end_date:
+                end_datetime = timezone.make_aware(datetime.strptime(end_date, '%Y-%m-%d') + timezone.timedelta(days=1))
+                queryset = queryset.filter(date_added__lt=end_datetime)
+        except ValueError:
+            raise Http404(_("Invalid date format"))
+            
         return queryset
 
 def translate(language, text):
