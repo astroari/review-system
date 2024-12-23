@@ -77,6 +77,7 @@ def custom_bad_request_view(request, exception):
 
 def call_order_system(order_id):
     url = "http://192.168.183.20/v1/api/get-orders-info"
+    # url = "https://crm.eman.uz/v1/api/get-orders-info"
     headers = {
         'token': settings.CRM_KEY
     }
@@ -113,6 +114,63 @@ class ReviewListView(generics.ListAPIView):
             raise Http404(_("Invalid date format"))
             
         return queryset
+
+from rest_framework.response import Response
+from rest_framework import serializers
+
+class CustomerServiceReviewView(generics.ListAPIView):
+    serializer_class = ReviewSerializer
+    http_method_names = ['get']
+
+    def get_queryset(self):
+        queryset = Review.objects.all()
+        
+        # Order ID filter
+        order_id = self.request.query_params.get('order_id', None)
+        if order_id is not None:
+            queryset = queryset.filter(order_id=order_id)
+            if not queryset.exists():
+                raise NotFound(_(f"No review found for order_id: {order_id}"))
+        
+        # Date range filter
+        start_date = self.request.query_params.get('start_date', None)
+        end_date = self.request.query_params.get('end_date', None)
+        
+        try:
+            if start_date:
+                start_datetime = timezone.make_aware(datetime.strptime(start_date, '%Y-%m-%d'))
+                queryset = queryset.filter(date_added__gte=start_datetime)
+            if end_date:
+                end_datetime = timezone.make_aware(datetime.strptime(end_date, '%Y-%m-%d') + timezone.timedelta(days=1))
+                queryset = queryset.filter(date_added__lt=end_datetime)
+        except ValueError:
+            raise Http404(_("Invalid date format"))
+            
+        return queryset
+
+    def get_serializer_class(self):
+        class EnrichedReviewSerializer(self.serializer_class):
+            branch_id = serializers.CharField(read_only=True)
+            phone_number = serializers.CharField(read_only=True)
+            
+            class Meta(self.serializer_class.Meta):
+                fields = list(self.serializer_class.Meta.fields) + ['branch_id', 'phone_number']
+
+        return EnrichedReviewSerializer
+
+    def list(self, request, *args, **kwargs):
+        reviews = self.get_queryset()
+        enriched_reviews = []
+        
+        for review in reviews:
+            order_data = call_order_system(review.order_id)
+            review_data = self.get_serializer(review).data
+            if order_data['stateCode'] == 200:
+                review_data['branch_id'] = order_data["orders"][0]["branch_id"]
+                review_data['phone_number'] = order_data["orders"][0]["phone"]
+            enriched_reviews.append(review_data)
+
+        return Response(enriched_reviews)
 
 def translate(language, text):
     cur_language = get_language()
