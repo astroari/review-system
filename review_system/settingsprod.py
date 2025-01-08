@@ -27,7 +27,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['192.168.183.25', 'rate.eman.uz', 'www.rate.eman.uz']
+ALLOWED_HOSTS = ['192.168.183.36', 'rate.eman.uz', 'www.rate.eman.uz']
 
 
 # Application definition
