@@ -48,8 +48,11 @@ def rate_view(request, prefilled_order_id=None, prefilled_phonenumber=None):
                 'error': _('Order not found or not available for review')
             }, safe=False)
         
+        # Save order's branch id
+        branch_id = order_data['orders'][0]['branch_id']
+        
         try:
-            review = Review(order_id=el_id, rating=val, review=review)
+            review = Review(order_id=el_id, rating=val, review=review, branch_id=branch_id)
             review.save()
             return JsonResponse({
                 'success': 'true',

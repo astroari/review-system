@@ -11,6 +11,7 @@ class Review(models.Model):
             ])
     review = models.TextField(blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
+    branch_id = models.IntegerField(blank=True, null=True, default=0)
 
     def __str__(self):
         return str(self.pk)
